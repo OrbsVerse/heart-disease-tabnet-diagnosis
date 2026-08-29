@@ -1,4 +1,4 @@
-# ❤️ Heart Disease Diagnosis System with TabNet
+# Heart Disease Diagnosis System with TabNet
 
 A deep learning–based diagnostic support system for heart disease risk prediction, built using **TabNet** — a deep learning architecture for tabular data with built-in attention-based feature selection. Deployed as an interactive Streamlit web app for real-time patient risk prediction.
 
