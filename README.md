@@ -1,68 +1,49 @@
-# ❤️ Sistem Diagnosa Penyakit Jantung dengan Multilayer Perceptron (MLP)
-# ❤️ Heart Disease Diagnosis System using Multilayer Perceptron (MLP)
+# ❤️ Heart Disease Diagnosis System with TabNet
 
----
-
-## 🇮🇩 Deskripsi Singkat
-
-Aplikasi ini merupakan sistem prediksi risiko penyakit jantung berbasis web yang dibangun menggunakan model *Multilayer Perceptron (MLP)*. Dataset diproses terlebih dahulu dengan pembersihan missing value dan outlier, kemudian dilatih dengan model neural network dan disajikan melalui antarmuka Streamlit.
-
----
-
-## 🌐 Description (English)
-
-This is a web-based prediction system for heart disease risk built using a trained *Multilayer Perceptron (MLP)*. The data is preprocessed, modeled, and deployed with a clean and interactive UI via Streamlit.
-
----
+A deep learning–based diagnostic support system for heart disease risk prediction, built using **TabNet** — a deep learning architecture for tabular data with built-in attention-based feature selection. Deployed as an interactive Streamlit web app for real-time patient risk prediction.
 
 ## 🧪 Dataset
 
-- 📄 **Raw dataset**: `data/raw_heart_dataset.csv`
-- ✅ **Cleaned dataset**: `data/cleaned_heart_dataset.csv` (after preprocessing)
+- 3,235-record clinical dataset
+- Outliers handled via the **IQR method**
 
----
+## 🧠 Modeling
 
-## 🔍 Preprocessing (`notebook/preprocessing.ipynb`)
+- Preprocessing: numerical/categorical feature separation, `MinMaxScaler` normalization (tailored to TabNet's input requirements)
+- Validated via **Stratified 5-Fold Cross Validation**, tuning learning rate, batch size, and early stopping
+- Model persistence via `TabNetClassifier.save_model()` and `joblib`
 
-- Analisis kolom, korelasi, dan missing value
-- Mengganti nilai 0/NaN dengan modus
-- Menangani outlier dengan metode IQR (Capping)
-- Menyimpan data bersih ke `cleaned_heart_dataset.csv`
+## 📊 Results (average across folds)
 
----
+| Metric | Score |
+|---|---|
+| Accuracy | 70.9% |
+| Precision | 71.1% |
+| Recall | 75.8% |
 
-## 🧠 Modeling (`notebook/mlp_modeling.ipynb`)
+Consistent performance across folds with no signs of overfitting.
 
-- Fitur numerik → `StandardScaler`
-- Fitur kategorikal → `OneHotEncoder`
-- Arsitektur MLP: 128-64-32 neuron + Dropout
-- Optimizer: AdamW, Loss: BinaryCrossentropy, Metric: AUC
-- Callbacks: EarlyStopping, ModelCheckpoint
-- Hasil:
-  - 📦 Model disimpan → `model/mlp_model.keras`
-  - 📦 Preprocessor disimpan → `model/scaler.pkl`
+## 🖥️ Streamlit App (`src/app.py`)
 
----
+- Sidebar form for patient feature input
+- Loads the trained TabNet model and scaler automatically
+- Displays real-time heart disease risk prediction
 
-## 🖥️ Aplikasi Streamlit (`src/app.py`)
+## 📂 Project Structure
+```
+data/ # Raw and cleaned datasets
+notebook/ # Preprocessing and TabNet modeling notebooks
+model/ # Saved TabNet model and scaler
+src/ # Streamlit application
+```
 
-- Input fitur melalui form sidebar
-- Otomatis load `mlp_model.keras` dan `scaler.pkl`
-- Prediksi risiko penyakit jantung (threshold 0.5)
-- Visualisasi hasil & input pengguna
+## ⚙️ Tech Stack
 
----
+Python · PyTorch (TabNet) · Scikit-learn · Streamlit
 
-## ⚙️ Cara Menjalankan Aplikasi
-
-### 1. Install dependensi
+## 🚀 Running Locally
 
 ```bash
 pip install -r requirements.txt
-```
-
-### 2. Jalankan aplikasi
-
-```bash
 streamlit run src/app.py
 ```
